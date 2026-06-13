@@ -1,9 +1,6 @@
 {
   "name": "keti-photography-portfolio",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ],
   "scripts": {},
   "dependencies": {
     "@payloadcms/db-sqlite": "^3.85.1",
