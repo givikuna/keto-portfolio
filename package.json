@@ -1,0 +1,26 @@
+{
+  "name": "keti-photography-portfolio",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {},
+  "dependencies": {
+    "@payloadcms/db-sqlite": "^3.85.1",
+    "astro": "^6.4.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "payload": "^3.85.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "sharp": "^0.35.1",
+    "tailwindcss": "^4.3.1",
+    "yet-another-react-lightbox": "^3.32.0"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^5.0.7",
+    "@types/express": "^5.0.6",
+    "@types/react": "^19.2.17",
+    "typescript": "^6.0.3"
+  }
+}
