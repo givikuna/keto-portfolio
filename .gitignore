@@ -2,3 +2,4 @@ node_modules
 .direnv
 .vscode
 repomix-output.xml
+package-lock.json
