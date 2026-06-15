@@ -1,23 +1,26 @@
 {
-  "name": "keti-photography-portfolio",
-  "private": true,
-  "scripts": {},
-  "dependencies": {
-    "@payloadcms/db-sqlite": "^3.85.1",
-    "astro": "^6.4.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "payload": "^3.85.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "sharp": "^0.35.1",
-    "tailwindcss": "^4.3.1",
-    "yet-another-react-lightbox": "^3.32.0"
-  },
-  "devDependencies": {
-    "@astrojs/react": "^5.0.7",
-    "@types/express": "^5.0.6",
-    "@types/react": "^19.2.17",
-    "typescript": "^6.0.3"
-  }
+    "name": "keto-portfolio",
+    "version": "1.0.0",
+    "description": "A photography portfolio website",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/givikuna/keto-portfolio.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/givikuna/keto-portfolio/issues"
+    },
+    "homepage": "https://github.com/givikuna/keto-portfolio#readme",
+    "dependencies": {
+        "path": "^0.12.7",
+        "type-fest": "^5.7.0"
+    },
+    "devDependencies": {
+        "@types/node": "^25.9.3"
+    }
 }

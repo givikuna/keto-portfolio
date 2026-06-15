@@ -29,17 +29,6 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             nodejs_22
-            bun
-            sqlite
-
-            # might not end up being useful but lets have it nevertheless
-            vips
-            glib
-            gdk-pixbuf
-            libjpeg
-            libpng
-            libwebp
-            libtiff
           ];
         };
       }
