@@ -1,17 +1,17 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { IDMachine } from "../shared/id/IDMachine";
+import { IDMachine } from "./modules/IDMachine";
 
-import { DB } from "./interfaces/DB";
-import { Gallery } from "./interfaces/Gallery";
-import { Album } from "./interfaces/Album";
-import { Picture } from "./interfaces/Picture";
+import { DB } from "../../shared/interfaces/DB";
+import { Gallery } from "../../shared/interfaces/Gallery";
+import { Album } from "../../shared/interfaces/Album";
+import { Picture } from "../../shared/interfaces/Picture";
 
-import { MDMetadata } from "./interfaces/MDMetadata";
+import { MDMetadata } from "../../shared/interfaces/MDMetadata";
 
-import { Description } from "./interfaces/Description";
-import { SocialMedia } from "./interfaces/SocialMedia";
+import { Description } from "../../shared/interfaces/Description";
+import { SocialMedia } from "../../shared/interfaces/SocialMedia";
 function createMDMetadata(topic: string): MDMetadata {
     const m: MDMetadata = {
         en: "",
