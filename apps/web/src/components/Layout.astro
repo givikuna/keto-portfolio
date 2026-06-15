@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+
+import Navbar from './Navbar.astro';
+
+const { lang } = Astro.props as { lang: string };
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photography Portfolio</title>
+  </head>
+
+  <body>
+    <header>
+      <Navbar lang={lang} />
+    </header>
+
+    <main class="page-container">
+      <slot />
+    </main>
+  </body>
+</html>

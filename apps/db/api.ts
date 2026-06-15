@@ -78,6 +78,7 @@ export class DB_API {
             id: IDMachine.inc(),
             name: name,
             description: description,
+            thumbnail: "",
             albums: [],
         };
 
@@ -93,6 +94,7 @@ export class DB_API {
             id: IDMachine.inc(),
             name: name,
             description: description,
+            thumbnail: "",
             pictures: [],
         };
 

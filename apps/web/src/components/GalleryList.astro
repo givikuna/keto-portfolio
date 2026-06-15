@@ -1,0 +1,16 @@
+---
+import type { Gallery } from '../../../../shared/interfaces/Gallery';  // adjust path
+
+const { galleries, lang } = Astro.props as { galleries: Gallery[]; lang: string };
+---
+
+<div class="gallery-grid">
+  {galleries.map((gallery) => (
+    <a href={`/${lang}/galleries/${gallery.id}`} class="gallery-card">
+      {}
+      <img src="/placeholder-gallery.jpg" alt={gallery.name} />
+      <h2>{gallery.name}</h2>
+      <p>{gallery.description[lang] || gallery.description.en}</p>
+    </a>
+  ))}
+</div>
