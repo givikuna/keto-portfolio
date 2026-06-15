@@ -2,6 +2,6 @@ import { Description } from "./Description";
 
 export interface Picture {
     id: string;
-    filepath: string;
+    file: string;
     description: Description;
 }

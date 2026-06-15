@@ -1,10 +1,13 @@
 import { Gallery } from "./Gallery";
-import { SocialMedia } from "../types/SocialMedia";
+
+import { SocialMedia } from "./SocialMedia";
+
+import { MDMetadata } from "./MDMetadata";
 
 export interface DB {
     galleries: Gallery[];
     media: SocialMedia[];
 
-    pricing: string;
-    about: string;
+    pricing: MDMetadata;
+    about: MDMetadata;
 }
