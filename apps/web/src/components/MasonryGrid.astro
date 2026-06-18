@@ -1,0 +1,67 @@
+---
+import type { Picture } from "../../../../shared/interfaces/Picture";
+
+const { pictures, lang } = Astro.props as { pictures: Picture[]; lang: string };
+const API_BASE: string = "https://localhost:8081";
+---
+
+<div
+    class="masonry"
+    id="masonry-grid"
+>
+    {
+        pictures.map((pic: Picture) => {
+            return (
+                <div
+                    class="masonry-item"
+                    data-description={pic.description[lang] || pic.description.en}
+                >
+                    <img
+                        src={`${API_BASE}/images/${pic.file}`}
+                        alt={pic.description[lang] || pic.description.en || pic.id}
+                        loading="lazy"
+                        class="masonry-img"
+                        data-id={pic.id}
+                    />
+                </div>
+            );
+        })
+    }
+</div>
+
+<style>
+    .masonry {
+        column-count: 3;
+        column-gap: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .masonry-item {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+    .masonry-img {
+        width: 100%;
+        display: block;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition:
+            transform 0.2s,
+            box-shadow 0.2s;
+        cursor: pointer;
+    }
+    .masonry-img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 900px) {
+        .masonry {
+            column-count: 2;
+        }
+    }
+    @media (max-width: 600px) {
+        .masonry {
+            column-count: 1;
+        }
+    }
+</style>

@@ -1,0 +1,32 @@
+---
+import GalleryList from "../../components/GalleryList.astro";
+import Layout from "../../components/Layout.astro";
+
+import * as API from "../../lib/api";
+
+import { Gallery } from "../../../../../shared/interfaces/Gallery";
+
+const { lang } = Astro.params;
+const galleries: ReadonlyArray<Gallery> = await API.fetchGalleries();
+---
+
+<Layout lang={lang}>
+    <section class="hero">
+        <h1>Galleries:</h1>
+    </section>
+
+    <section>
+        <h2>List:</h2>
+        <GalleryList
+            galleries={galleries}
+            lang={lang}
+        />
+    </section>
+</Layout>
+
+<style>
+    .hero {
+        text-align: center;
+        padding: 4rem 0;
+    }
+</style>

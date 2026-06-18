@@ -19,7 +19,7 @@ const links: {
     <div class="navbar-inner">
         <ul class="nav-links">
             {
-                links.map((link) => (
+                links.map((link: { href: string; label: string }) => (
                     <li>
                         <a href={link.href}>{link.label}</a>
                     </li>

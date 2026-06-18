@@ -1,0 +1,34 @@
+---
+import Layout from "../../components/Layout.astro";
+
+import * as API from "../../lib/api";
+import * as markdownModule from "../../lib/markdown";
+
+import { MDMetadata } from "../../../../../shared/interfaces/MDMetadata";
+
+const { lang } = Astro.params;
+
+const pricingData: MDMetadata = await API.fetchPricing();
+const pricingHTML: string = markdownModule.renderMarkdown(pricingData[lang!] || pricingData.en);
+---
+
+<Layout lang={lang}>
+    <div class="pricing-page">
+        <h1>Prices:</h1>
+        <div
+            class="pricing-content"
+            set:html={pricingHTML}
+        />
+    </div>
+</Layout>
+
+<style>
+    .pricing-page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .pricing-content {
+        line-height: 1.8;
+    }
+</style>

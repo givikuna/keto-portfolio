@@ -8,7 +8,7 @@ const { albums, lang } = Astro.props as { albums: Album[]; lang: string };
     {
         albums.map((album: Album, index: number) => {
             return (
-                <div class={`zigzag-item-${index % 2 === 0 ? "even" : "odd"}`}>
+                <div class={`zigzag-item ${index % 2 === 0 ? "even" : "odd"}`}>
                     <div class="zigzag-image">
                         <a href={`/${lang}/albums/${album.id}`}>
                             <img
