@@ -1,0 +1,77 @@
+---
+import type { Album } from "../../../../shared/interfaces/Album";
+
+const { albums, lang } = Astro.props as { albums: Album[]; lang: string };
+---
+
+<div class="album-zigzag">
+    {
+        albums.map((album: Album, index: number) => {
+            return (
+                <div class={`zigzag-item-${index % 2 === 0 ? "even" : "odd"}`}>
+                    <div class="zigzag-image">
+                        <a href={`/${lang}/albums/${album.id}`}>
+                            <img
+                                src={album.thumbnail}
+                                alt={album.name}
+                            />
+                        </a>
+                    </div>
+                    <div class="zigzag-description">
+                        <h3>
+                            <a href={`/${lang}/albums/${album.id}`} />
+                        </h3>
+                        <p>{album.description}</p>
+                    </div>
+                </div>
+            );
+        })
+    }
+</div>
+
+<style>
+    .album-zigzag {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .zigzag-item {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+    .zigzag-item.even {
+        flex-direction: row;
+    }
+    .zigzag-item.odd {
+        flex-direction: row-reverse;
+    }
+    .zigzag-image {
+        flex: 1;
+    }
+    .zigzag-image img {
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+    .zigzag-image img:hover {
+        transform: scale(1.02);
+    }
+    .zigzag-description {
+        flex: 1;
+        padding: 1rem;
+    }
+    .zigzag-description h3 {
+        margin-top: 0;
+    }
+    @media (max-width: 768px) {
+        .zigzag-item,
+        .zigzag-item.even,
+        .zigzag-item.odd {
+            flex-direction: column;
+        }
+    }
+</style>

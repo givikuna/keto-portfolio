@@ -1,5 +1,5 @@
 ---
-import LanguageSelector from './LanguageSelector.astro';
+import LanguageSelector from "./LanguageSelector.astro";
 
 const { lang } = Astro.props as { lang: string };
 
@@ -7,57 +7,59 @@ const links: {
     href: string;
     label: string;
 }[] = [
-  { href: `/${lang}`,           label: 'Home' },
-  { href: `/${lang}/about`,     label: 'About' },
-  { href: `/${lang}/contact`,   label: 'Contact' },
-  { href: `/${lang}/pricing`,   label: 'Pricing' },
-  { href: `/${lang}/galleries`, label: 'Galleries' },
+    { href: `/${lang}`, label: "Home" },
+    { href: `/${lang}/about`, label: "About" },
+    { href: `/${lang}/contact`, label: "Contact" },
+    { href: `/${lang}/pricing`, label: "Pricing" },
+    { href: `/${lang}/galleries`, label: "Galleries" },
 ];
 ---
 
 <nav class="navbar">
-  <div class="navbar-inner">
-    <ul class="nav-links">
-      {links.map((link) => (
-        <li>
-          <a href={link.href}>{link.label}</a>
-        </li>
-      ))}
-    </ul>
-    <LanguageSelector currentLang={lang} />
-  </div>
+    <div class="navbar-inner">
+        <ul class="nav-links">
+            {
+                links.map((link) => (
+                    <li>
+                        <a href={link.href}>{link.label}</a>
+                    </li>
+                ))
+            }
+        </ul>
+        <LanguageSelector currentLang={lang} />
+    </div>
 </nav>
 
 <style>
-  .navbar {
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-    padding: 0.5rem 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+    .navbar {
+        background: #ffffff;
+        border-bottom: 1px solid #eeeeee;
+        padding: 0.5rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-  .navbar-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+    .navbar-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-  .nav-links {
-    display: flex;
-    gap: 1.5rem;
-    list-style: none;
-  }
+    .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+    }
 
-  .nav-links a {
-    font-weight: 500;
-    transition: color 0.2s;
-  }
+    .nav-links a {
+        font-weight: 500;
+        transition: color 0.2s;
+    }
 
-  .nav-links a:hover {
-    color: #666;
-  }
+    .nav-links a:hover {
+        color: #666;
+    }
 </style>
