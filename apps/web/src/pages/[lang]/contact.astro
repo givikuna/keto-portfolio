@@ -1,7 +1,7 @@
 ---
 import Layout from "../../components/Layout.astro";
 
-const { lang } = Astro.params;
+const { lang } = Astro.params as { lang: string };
 ---
 
 <Layout lang={lang}>

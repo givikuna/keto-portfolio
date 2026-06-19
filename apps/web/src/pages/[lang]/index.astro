@@ -6,7 +6,8 @@ import * as API from "../../lib/api";
 
 import { Gallery } from "../../../../../shared/interfaces/Gallery";
 
-const { lang } = Astro.params;
+const { lang } = Astro.params as { lang: string };
+
 const galleries: ReadonlyArray<Gallery> = await API.fetchGalleries();
 ---
 

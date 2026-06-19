@@ -1,4 +1,6 @@
 ---
+import { JSX } from "astro/jsx-runtime";
+
 const { lang } = Astro.props as { lang: string };
 
 const langs: [string, string, string] = ["en", "ru", "ka"];
@@ -8,13 +10,15 @@ const basePath: string = Astro.url.pathname.replace(/^\/[a-z]{2}/, "") || "/";
 
 <nav class="lang-selector">
     {
-        langs.map((l) => (
-            <a
-                href={`/${l}${basePath === "/" ? "" : basePath}`}
-                class={l === lang ? "active" : ""}
-            >
-                {labels[l]}
-            </a>
-        ))
+        langs.map(
+            (l: string): JSX.Element => (
+                <a
+                    href={`/${l}${basePath === "/" ? "" : basePath}`}
+                    class={l === lang ? "active" : ""}
+                >
+                    {labels[l]}
+                </a>
+            ),
+        )
     }
 </nav>

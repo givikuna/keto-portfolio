@@ -5,16 +5,18 @@ import PhotoModal from "../../../components/PhotoModal.astro";
 
 import * as API from "../../../lib/api";
 
-const { lang, id } = Astro.params;
+import { Album } from "../../../../../../shared/interfaces/Album";
 
-const album = await API.fetchAlbum(id!);
+const { lang, id } = Astro.params as { lang: string; id: string };
+
+const album: Album = await API.fetchAlbum(id);
 ---
 
 <Layout lang={lang}>
     <div class="album-page">
         <h1>{album.name}</h1>
         <p class="album-desc">
-            {album.description[lang!] || album.description.en}
+            {album.description[lang] || album.description.en}
         </p>
         <MasonryGrid
             pictures={album.pictures}
