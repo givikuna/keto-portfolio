@@ -1,8 +1,7 @@
 import { Gallery } from "./Gallery";
-
 import { SocialMedia } from "./SocialMedia";
-
 import { MDMetadata } from "./MDMetadata";
+import { Personals } from "./Personals";
 
 export interface DB {
     galleries: Gallery[];
@@ -10,4 +9,6 @@ export interface DB {
 
     pricing: MDMetadata;
     about: MDMetadata;
+
+    personals: Personals;
 }
