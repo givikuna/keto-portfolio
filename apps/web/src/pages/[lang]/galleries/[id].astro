@@ -1,3 +1,38 @@
-<!--
-    ToDo: Write this
--->
+---
+import Layout from "../../../components/Layout.astro";
+import AlbumZigzag from "../../../components/AlbumZigzag.astro";
+
+import * as API from "../../../lib/api";
+
+import { Gallery } from "../../../../../../shared/interfaces/Gallery";
+
+const { lang, id } = Astro.params as { lang: string; id: string };
+
+const gallery: Gallery = await API.fetchGallery(id);
+---
+
+<Layout lang={lang}>
+    <div class="gallery-detail">
+        <h1>{gallery.name}</h1>
+        <p class="gallery-desc">
+            {gallery.description[lang] || gallery.description.en}
+        </p>
+        <AlbumZigzag
+            albums={gallery.albums}
+            lang={lang}
+        />
+    </div>
+</Layout>
+
+<style>
+    .gallery-detail {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .gallery-desc {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #444;
+    }
+</style>
