@@ -1,5 +1,5 @@
 ---
-const { currentLang } = Astro.props as { currentLang: string };
+const { lang } = Astro.props as { lang: string };
 
 const langs: [string, string, string] = ["en", "ru", "ka"];
 const labels: Record<string, string> = { en: "EN", ru: "RU", ka: "KA" };
@@ -8,12 +8,12 @@ const basePath: string = Astro.url.pathname.replace(/^\/[a-z]{2}/, "") || "/";
 
 <nav class="lang-selector">
     {
-        langs.map((lang) => (
+        langs.map((l) => (
             <a
-                href={`/${lang}${basePath === "/" ? "" : basePath}`}
-                class={lang === currentLang ? "active" : ""}
+                href={`/${l}${basePath === "/" ? "" : basePath}`}
+                class={l === lang ? "active" : ""}
             >
-                {labels[lang]}
+                {labels[l]}
             </a>
         ))
     }

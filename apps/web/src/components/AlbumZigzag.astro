@@ -1,12 +1,14 @@
 ---
 import type { Album } from "../../../../shared/interfaces/Album";
 
+import { JSX } from "astro/jsx-runtime";
+
 const { albums, lang } = Astro.props as { albums: Album[]; lang: string };
 ---
 
 <div class="album-zigzag">
     {
-        albums.map((album: Album, index: number) => {
+        albums.map((album: Album, index: number): JSX.Element => {
             return (
                 <div class={`zigzag-item ${index % 2 === 0 ? "even" : "odd"}`}>
                     <div class="zigzag-image">
