@@ -12,6 +12,7 @@ import { MDMetadata } from "../../shared/interfaces/MDMetadata";
 
 import { Description } from "../../shared/interfaces/Description";
 import { SocialMedia } from "../../shared/interfaces/SocialMedia";
+import { Personals } from "../../shared/interfaces/Personals";
 function createMDMetadata(topic: string): MDMetadata {
     const m: MDMetadata = {
         en: "",
@@ -30,7 +31,7 @@ function createMDMetadata(topic: string): MDMetadata {
 }
 
 export class DB_API {
-    public static db: DB | null = null;
+    private static db: DB | null = null;
 
     public static fetchDB(): DB {
         if (this.db === null) {
@@ -39,10 +40,13 @@ export class DB_API {
                 ...{
                     about: createMDMetadata("about"),
                     pricing: createMDMetadata("pricing"),
+                    personals: JSON.parse(
+                        fs.readFileSync(path.join(__dirname, "./data/personals.json"), "utf-8"),
+                    ) satisfies Personals,
                 },
             } satisfies DB;
         }
-        return this.db as DB;
+        return this.db;
     }
 
     private static overwriteDB(): void {
@@ -136,5 +140,9 @@ export class DB_API {
         this.overwriteDB();
 
         return newSM;
+    }
+
+    public static getPersonals(): Personals {
+        return DB_API.fetchDB().personals;
     }
 }
