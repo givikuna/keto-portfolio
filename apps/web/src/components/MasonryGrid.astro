@@ -1,7 +1,10 @@
 ---
+import { JSX } from "astro/jsx-runtime";
+
 import type { Picture } from "../../../../shared/interfaces/Picture";
 
 const { pictures, lang } = Astro.props as { pictures: Picture[]; lang: string };
+
 const API_BASE: string = "https://localhost:8081";
 ---
 
@@ -10,7 +13,7 @@ const API_BASE: string = "https://localhost:8081";
     id="masonry-grid"
 >
     {
-        pictures.map((pic: Picture) => {
+        pictures.map((pic: Picture): JSX.Element => {
             return (
                 <div
                     class="masonry-item"

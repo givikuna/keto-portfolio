@@ -1,4 +1,6 @@
 ---
+import { JSX } from "astro/jsx-runtime";
+
 import LanguageSelector from "./LanguageSelector.astro";
 
 const { lang } = Astro.props as { lang: string };
@@ -19,11 +21,13 @@ const links: {
     <div class="navbar-inner">
         <ul class="nav-links">
             {
-                links.map((link: { href: string; label: string }) => (
-                    <li>
-                        <a href={link.href}>{link.label}</a>
-                    </li>
-                ))
+                links.map(
+                    (link: { href: string; label: string }): JSX.Element => (
+                        <li>
+                            <a href={link.href}>{link.label}</a>
+                        </li>
+                    ),
+                )
             }
         </ul>
         <LanguageSelector currentLang={lang} />

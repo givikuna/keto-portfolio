@@ -6,7 +6,7 @@ import * as markdownModule from "../../lib/markdown";
 
 import { MDMetadata } from "../../../../../shared/interfaces/MDMetadata";
 
-const { lang } = Astro.params;
+const { lang } = Astro.params as { lang: string };
 
 const pricingData: MDMetadata = await API.fetchPricing();
 const pricingHTML: string = markdownModule.renderMarkdown(pricingData[lang!] || pricingData.en);

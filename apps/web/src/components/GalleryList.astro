@@ -1,4 +1,6 @@
 ---
+import { JSX } from "astro/jsx-runtime";
+
 import type { Gallery } from "../../../../shared/interfaces/Gallery";
 
 const { galleries, lang } = Astro.props as { galleries: Gallery[]; lang: string };
@@ -6,21 +8,23 @@ const { galleries, lang } = Astro.props as { galleries: Gallery[]; lang: string 
 
 <div class="gallery-list">
     {
-        galleries.map((gallery: Gallery) => (
-            <a
-                href={`/${lang}/galleries/${gallery.id}`}
-                class="gallery-card"
-            >
-                <div class="gallery-thumb">
-                    <img
-                        src={`/images/${gallery.thumbnail}.jpg`}
-                        alt={gallery.name}
-                    />
-                </div>
-                <h3>{gallery.name}</h3>
-                <p>{gallery.description[lang] || gallery.description.en}</p>
-            </a>
-        ))
+        galleries.map(
+            (gallery: Gallery): JSX.Element => (
+                <a
+                    href={`/${lang}/galleries/${gallery.id}`}
+                    class="gallery-card"
+                >
+                    <div class="gallery-thumb">
+                        <img
+                            src={`/images/${gallery.thumbnail}.jpg`}
+                            alt={gallery.name}
+                        />
+                    </div>
+                    <h3>{gallery.name}</h3>
+                    <p>{gallery.description[lang] || gallery.description.en}</p>
+                </a>
+            ),
+        )
     }
 </div>
 
