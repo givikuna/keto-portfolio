@@ -1,3 +1,59 @@
-<!--
-    ToDo: Write This
--->
+---
+import type { Gallery } from "../../../../shared/interfaces/Gallery";
+
+const { galleries, lang } = Astro.props as { galleries: Gallery[]; lang: string };
+---
+
+<div class="gallery-list">
+    {
+        galleries.map((gallery: Gallery) => (
+            <a
+                href={`/${lang}/galleries/${gallery.id}`}
+                class="gallery-card"
+            >
+                <div class="gallery-thumb">
+                    <img
+                        src={`/images/${gallery.thumbnail}.jpg`}
+                        alt={gallery.name}
+                    />
+                </div>
+                <h3>{gallery.name}</h3>
+                <p>{gallery.description[lang] || gallery.description.en}</p>
+            </a>
+        ))
+    }
+</div>
+
+<style>
+    .gallery-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+    }
+    .gallery-card {
+        text-decoration: none;
+        color: inherit;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s;
+    }
+    .gallery-card:hover {
+        transform: translateY(-4px);
+    }
+    .gallery-thumb img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .gallery-card h3 {
+        margin: 0.75rem 1rem 0.25rem;
+    }
+    .gallery-card p {
+        margin: 0 1rem 1rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+</style>
