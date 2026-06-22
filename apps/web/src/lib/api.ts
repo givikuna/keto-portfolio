@@ -29,6 +29,6 @@ export async function fetchAbout(): Promise<MDMetadata> {
     return fetcher(`about`) as unknown as Promise<MDMetadata>;
 }
 
-export async function fetchSocialMedia(): Promise<SocialMedia> {
-    return fetcher(`about`) as unknown as Promise<SocialMedia>;
+export async function fetchSocialMedia(): Promise<ReadonlyArray<SocialMedia>> {
+    return fetcher(`about`) as unknown as Promise<ReadonlyArray<SocialMedia>>;
 }
