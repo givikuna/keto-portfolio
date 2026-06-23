@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 
+//
+
 export class IDMachine {
     public static inc(): string {
         const data: [[number, number], [number, number, number]] = ((

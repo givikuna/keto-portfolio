@@ -1,11 +1,20 @@
 import * as express from "express";
+import * as multer from "multer";
+import * as fs from "fs";
+import * as path from "path";
 import * as child_process from "child_process";
 import * as util from "util";
 
 import { DB_API } from "../../../db/api";
 
+import { IDMachine } from "../../../db/modules/IDMachine";
+
 import { Gallery } from "../../../../shared/interfaces/Gallery";
 import { Album } from "../../../../shared/interfaces/Album";
+
+const upload: multer.Multer = multer.default({ dest: "apps/db/data/img" });
+
+//
 
 const router: express.Router = express.Router();
 
@@ -84,5 +93,18 @@ ${req.body["message"].trim()}
         res.status(500).json({ error: "failed to send email. please try again later" });
     }
 });
+
+router.post(
+    "/upload",
+    upload.single("image"),
+    (req: express.Request, res: express.Response): void => {
+        const id: string = IDMachine.inc();
+        const name: string = `${id}{path.extname(req["file"]!["originalname"])}`;
+
+        fs.renameSync(req["file"]!["path"], path.join("apps/db/img", name));
+
+        res.json({ id: id, file: name });
+    },
+);
 
 export default router;

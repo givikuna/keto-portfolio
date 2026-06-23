@@ -9,6 +9,8 @@ async function fetcher(APIPath: string): Promise<JSON> {
     return (await fetch(`${API_BASE}/api/${APIPath}`)).json();
 }
 
+//
+
 export async function fetchGalleries(): Promise<Gallery[]> {
     return fetcher(`galleries`) as unknown as Promise<Gallery[]>;
 }

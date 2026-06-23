@@ -5,6 +5,8 @@ import * as APIRoutes from "./routes/api/routes";
 
 import { SERVER_PORT } from "../../shared/constants/constants";
 
+//
+
 const app: express.Application = express.default();
 
 app.use(cors.default());

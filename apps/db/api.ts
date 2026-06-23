@@ -13,6 +13,8 @@ import { MDMetadata } from "../../shared/interfaces/MDMetadata";
 import { Description } from "../../shared/interfaces/Description";
 import { SocialMedia } from "../../shared/interfaces/SocialMedia";
 import { Personals } from "../../shared/interfaces/Personals";
+
+//
 function createMDMetadata(topic: string): MDMetadata {
     const m: MDMetadata = {
         en: "",
@@ -30,6 +32,8 @@ function createMDMetadata(topic: string): MDMetadata {
 
     return m;
 }
+
+//
 
 export class DB_API {
     private static db: DB | null = null;
