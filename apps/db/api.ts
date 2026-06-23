@@ -24,6 +24,7 @@ function createMDMetadata(topic: string): MDMetadata {
         (l: string): void =>
             (m[l] = fs.readFileSync(
                 path.join(__dirname, `./data/markdown/${topic}/${l}.md`),
+                "utf-8",
             ) as any),
     );
 
@@ -67,7 +68,7 @@ export class DB_API {
         const db: DB = DB_API.fetchDB();
 
         for (let i: number = 0; i < db.galleries.length; i++) {
-            for (let j: number = 0; j < db.galleries[i].albums.length; i++) {
+            for (let j: number = 0; j < db.galleries[i].albums.length; j++) {
                 if (db.galleries[i].albums[j].id === albumID) return db.galleries[i].albums[j];
             }
         }
