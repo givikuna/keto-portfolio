@@ -2,10 +2,211 @@
 import Layout from "../../components/Layout.astro";
 
 const { lang } = Astro.params as { lang: string };
+
+const t: Record<string, Record<string, string>> = {
+    en: {
+        title: "Contact Me",
+        name: "Your Name",
+        email: "Your Email",
+        message: "Your Message",
+        send: "Send Message",
+        sending: "Sending...",
+        success: "Your message has been sent.",
+        error: "Something went wrong. Please try again.",
+    },
+    ru: {
+        title: "Свяжитесь со мной",
+        name: "Ваше имя",
+        email: "Ваш Email",
+        message: "Ваше сообщение",
+        send: "Отправить",
+        sending: "Отправка...",
+        success: "Сообщение отправлено. Я свяжусь с вами в ближайшее время.",
+        error: "Произошла ошибка. Попробуйте еще раз.",
+    },
+    ka: {
+        title: "დამიკავშირდი",
+        name: "თქვენი სახელი",
+        email: "ელ. ფოსტა",
+        message: "შეტყობინება",
+        send: "გაგზავნა",
+        sending: "იგზავნება...",
+        success: "შეტყობინება გაიგზავნა. მალე დაგიკავშირდებით.",
+        error: "რაღაც შეცდომა მოხდა. სცადეთ თავიდან.",
+    },
+};
+
+const labels: Record<string, string> = t[lang] || t["en"];
 ---
 
 <Layout lang={lang}>
     <div class="contact-page">
-        <h1>Contact Page:</h1>
+        <h1>{labels["title"]}</h1>
+        <form
+            id="contact-form"
+            class="contact-form"
+        >
+            <div class="form-group">
+                <label for="email">{labels["email"]}</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                />
+            </div>
+            <div class="form-group">
+                <label for="message">{labels["message"]}</label>
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    required
+                ></textarea>
+            </div>
+            <button
+                type="submit"
+                id="submit-btn"
+            >
+                {labels["send"]}
+            </button>
+            <div
+                id="form-status"
+                class="form-status"
+            >
+            </div>
+        </form>
     </div>
 </Layout>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (): void => {
+        const form: HTMLFormElement = document.getElementById("contact-form")! as HTMLFormElement;
+        const btn: HTMLButtonElement = document.getElementById("submit-btn") as HTMLButtonElement;
+        const statusDiv: HTMLDivElement = document.getElementById("form-status") as HTMLDivElement;
+        const labels = JSON.parse(document.currentScript?.getAttribute("data-labels") || "{}");
+
+        form.addEventListener("submit", async (e: Event) => {
+            e.preventDefault();
+
+            const formdata: FormData = new FormData(form);
+            const data = {
+                name: formdata.get("name"),
+                email: formdata.get("email"),
+                message: formdata.get("message"),
+                lang: document.documentElement.lang || "en",
+            };
+
+            btn.disabled = true;
+            btn.textContent = labels["sending"] || "sending...";
+
+            statusDiv.textContent = "";
+            statusDiv.className = "form-status";
+
+            try {
+                const response: Response = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    statusDiv.textContent = labels["success"] || "message sent";
+                    statusDiv.className = "form-status success";
+                    form.reset();
+                } else {
+                    statusDiv.textContent = result["error"] || labels["error"] || "Error";
+                    statusDiv.className = "form-status success";
+                    form.reset();
+                }
+            } catch (e) {
+                statusDiv.textContent = labels["error"] || "Network error. Please try again";
+                statusDiv.className = "form-status error";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = labels["send"] || "send";
+            }
+        });
+    });
+</script>
+
+<style>
+    .contact-page {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .form-group label {
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.7rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #0077cc;
+        box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.2);
+    }
+
+    button[type="submit"] {
+        padding: 0.8rem 2rem;
+        background-color: #0077cc;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #005fa3;
+    }
+
+    button[type="submit"]:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .form-status {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+    .form-status.success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .form-status.error {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
