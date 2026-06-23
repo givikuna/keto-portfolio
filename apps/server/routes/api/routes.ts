@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as nodemailer from "nodemailer";
 
 import { DB_API } from "../../../db/api";
 
@@ -48,6 +49,17 @@ router.get("/social-media", (_req: express.Request, res: express.Response): void
 // To-Do
 router.get("/cmd", (_req: express.Request, _res: express.Response): void => {
     //
+});
+
+router.post("/contact", async (req: express.Request, res: express.Response): Promise<void> => {
+    if (!req.body["name"] || !req.body["email"] || !req.body["message"]) {
+        res.status(400).json({ error: "name, email, and message are required" });
+        return;
+    }
+
+    const transporter = nodemailer.createTransport({
+        //
+    });
 });
 
 export default router;
