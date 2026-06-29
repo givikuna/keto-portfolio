@@ -19,3 +19,5 @@ export const selected: SvelteStore.Writable<{
 export const expanded: SvelteStore.Writable<Set<string>> = SvelteStore.writable<Set<string>>(
     new Set(),
 );
+
+export const currentLang: SvelteStore.Writable<string> = SvelteStore.writable("en");

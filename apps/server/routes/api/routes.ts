@@ -308,7 +308,20 @@ router.put("/about", (req: express.Request, res: express.Response): void => {
 
     DB_API.updateAbout(md);
 
-    
+    res.json({ success: true });
+});
+
+router.put("/pricing", (req: express.Request, res: express.Response): void => {
+    const md: MDMetadata = req.body;
+
+    if (!md.en || !md.ru || !md.ka) {
+        res.status(400).json({ error: "en, ru, ka required" });
+        return;
+    }
+
+    DB_API.updatePricing(md);
+
+    res.json({ success: true });
 });
 
 export default router;
