@@ -15,6 +15,7 @@ import { SocialMedia } from "../../shared/interfaces/SocialMedia";
 import { Personals } from "../../shared/interfaces/Personals";
 
 //
+
 function createMDMetadata(topic: string): MDMetadata {
     const m: MDMetadata = {
         en: "",
@@ -149,5 +150,63 @@ export class DB_API {
 
     public static getPersonals(): Personals {
         return DB_API.fetchDB().personals;
+    }
+
+    public static updateGallery(
+        galleryID: string,
+        data: Partial<Omit<Gallery, "id" | "album">>,
+    ): Gallery | undefined {
+        const gallery: Gallery | undefined = this.fetchDB().galleries.find(
+            (g: Gallery): boolean => g.id === galleryID,
+        );
+
+        if (!gallery) {
+            return undefined;
+        }
+
+        Object.assign(gallery, data);
+        this.overwriteDB();
+
+        return gallery;
+    }
+
+    public static updateAlbum(
+        albumID: string,
+        data: Partial<Omit<Album, "id" | "pictures">>,
+    ): Album | undefined {
+        const album: Album | undefined = this.getAlbum(albumID);
+
+        if (!album) {
+            return undefined;
+        }
+
+        Object.assign(album, data);
+        this.overwriteDB();
+
+        return album;
+    }
+
+    public static updatePicture(
+        pictureID: string,
+        data: Partial<Omit<Picture, "id" | "file">>,
+    ): Picture | undefined {
+        const db: DB = this.fetchDB();
+
+        for (const gallery of db.galleries) {
+            for (const album of gallery.albums) {
+                const picture: Picture | undefined = album.pictures.find(
+                    (p: Picture): boolean => p.id === pictureID,
+                );
+
+                if (picture) {
+                    Object.assign(picture, data);
+                    this.overwriteDB();
+
+                    return picture;
+                }
+            }
+        }
+
+        return undefined;
     }
 }
