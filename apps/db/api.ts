@@ -344,4 +344,50 @@ export class DB_API {
 
         return true;
     }
+
+    public static reorderAlbums(galleryID: string, orderedAlbumIDs: string[]): boolean {
+        const gallery: Gallery | undefined = this.getGallery(galleryID);
+
+        if (!gallery) {
+            return false;
+        }
+
+        const ordered: Album[] = orderedAlbumIDs
+            .map((id: string): Album | undefined =>
+                gallery.albums.find((a: Album): boolean => a.id === id),
+            )
+            .filter((a: Album | undefined): a is Album => a !== undefined);
+
+        if (ordered.length !== gallery.albums.length) {
+            return false;
+        }
+
+        gallery.albums = ordered;
+        this.overwriteDB();
+
+        return true;
+    }
+
+    public static reorderPictures(albumID: string, orderedPictureIDs: string[]): boolean {
+        const album: Album | undefined = this.getAlbum(albumID);
+
+        if (!album) {
+            return false;
+        }
+
+        const ordered: Picture[] = orderedPictureIDs
+            .map((pic_id: string): Picture | undefined =>
+                album.pictures.find((pic: Picture): boolean => pic.id === pic_id),
+            )
+            .filter((pic: Picture | undefined): pic is Picture => pic !== undefined);
+
+        if (ordered.length !== album.pictures.length) {
+            return false;
+        }
+
+        album.pictures = ordered;
+        this.overwriteDB();
+
+        return true;
+    }
 }
