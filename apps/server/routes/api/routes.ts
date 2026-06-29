@@ -305,6 +305,10 @@ router.put("/about", (req: express.Request, res: express.Response): void => {
     if (!md.en || !md.ru || !md.ka) {
         res.status(400).json({ error: "en, ru, ka required" });
     }
+
+    DB_API.updateAbout(md);
+
+    
 });
 
 export default router;
