@@ -209,4 +209,55 @@ export class DB_API {
 
         return undefined;
     }
+
+    public static deleteGallery(galleryID: string): boolean {
+        const db: DB = this.fetchDB();
+
+        const index: number = db.galleries.findIndex((g: Gallery): boolean => g.id === galleryID);
+
+        if (index === -1) {
+            return false;
+        }
+
+        db.galleries.splice(index, 1);
+        this.overwriteDB();
+
+        return true;
+    }
+
+    public static deleteAlbum(albumID: string): boolean {
+        for (const gallery of this.fetchDB().galleries) {
+            const index: number = gallery.albums.findIndex(
+                (album: Album): boolean => album.id === albumID,
+            );
+
+            if (index !== -1) {
+                gallery.albums.splice(index, 1);
+                this.overwriteDB();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static deletePicture(pictureID: string): boolean {
+        for (const gallery of this.fetchDB().galleries) {
+            for (const album of gallery.albums) {
+                const index: number = album.pictures.findIndex(
+                    (picture: Picture): boolean => picture.id === pictureID,
+                );
+
+                if (index !== -1) {
+                    album.pictures.splice(index, 1);
+                    this.overwriteDB();
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
