@@ -301,4 +301,47 @@ export class DB_API {
 
         return true;
     }
+
+    public static movePicture(pictureID: string, targetAlbumID: string): boolean {
+        const db: DB = this.fetchDB();
+
+        let picture: Picture | undefined;
+        let sourceAlbum: Album | undefined;
+        let pictureIndex = -1;
+
+        for (const gallery of db.galleries) {
+            for (const album of gallery.albums) {
+                const index: number = album.pictures.findIndex(
+                    (pic: Picture) => pic.id === pictureID,
+                );
+
+                if (index !== -1) {
+                    sourceAlbum = album;
+                    pictureIndex = index;
+                    picture = album.pictures[index];
+                    break;
+                }
+            }
+
+            if (picture) {
+                break;
+            }
+        }
+
+        if (!picture) {
+            return false;
+        }
+
+        const targetAlbum: Album | undefined = this.getAlbum(targetAlbumID);
+
+        if (!targetAlbum) {
+            return false;
+        }
+
+        sourceAlbum!.pictures.splice(pictureIndex, 1);
+        targetAlbum.pictures.push(picture);
+        this.overwriteDB();
+
+        return true;
+    }
 }
