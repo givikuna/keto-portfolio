@@ -260,4 +260,45 @@ export class DB_API {
 
         return false;
     }
+
+    public static moveAlbum(albumID: string, targetGalleryID: string): boolean {
+        const db: DB = this.fetchDB();
+
+        let album: Album | undefined;
+        let sourceGalleryIndex: number = -1;
+        let albumIndex: number = -1;
+
+        for (let i: number = 0; i < db.galleries.length; i++) {
+            const gallery: Gallery = db.galleries[i];
+
+            const index: number = gallery.albums.findIndex(
+                (m_album: Album): boolean => m_album.id === albumID,
+            );
+
+            if (index !== -1) {
+                sourceGalleryIndex = i;
+                albumIndex = index;
+                album = gallery.albums[index];
+                break;
+            }
+        }
+
+        if (!album) {
+            return false;
+        }
+
+        const targetGallery: Gallery | undefined = db.galleries.find(
+            (g: Gallery) => g.id === targetGalleryID,
+        );
+
+        if (!targetGallery) {
+            return false;
+        }
+
+        db.galleries[sourceGalleryIndex].albums.splice(albumIndex, 1);
+        targetGallery.albums.push(album);
+        this.overwriteDB();
+
+        return true;
+    }
 }
