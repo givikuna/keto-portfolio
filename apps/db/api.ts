@@ -390,4 +390,18 @@ export class DB_API {
 
         return true;
     }
+
+    public static updateAbout(md: MDMetadata): void {
+        const base: string = path.join(__dirname, "./data/markdown/about/");
+        fs.writeFileSync(path.join(base, "en.md"), md.en, "utf-8");
+        fs.writeFileSync(path.join(base, "ru.md"), md.ru, "utf-8");
+        fs.writeFileSync(path.join(base, "ka.md"), md.ka, "utf-8");
+    }
+
+    public static updatePricing(md: MDMetadata): void {
+        const base: string = path.join(__dirname, "./data/markdown/pricing/");
+        fs.writeFileSync(path.join(base, "en.md"), md.en, "utf-8");
+        fs.writeFileSync(path.join(base, "ru.md"), md.ru, "utf-8");
+        fs.writeFileSync(path.join(base, "ka.md"), md.ka, "utf-8");
+    }
 }

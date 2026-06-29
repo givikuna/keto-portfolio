@@ -13,6 +13,7 @@ import { Gallery } from "../../../../shared/interfaces/Gallery";
 import { Album } from "../../../../shared/interfaces/Album";
 import { Picture } from "../../../../shared/interfaces/Picture";
 import { Description } from "../../../../shared/interfaces/Description";
+import { MDMetadata } from "../../../../shared/interfaces/MDMetadata";
 
 const upload: multer.Multer = multer.default({ dest: "apps/db/data/img" });
 
@@ -296,6 +297,14 @@ router.put("/reorder/pictures", (req: express.Request, res: express.Response): v
     }
 
     res.status(200).json({ message: "reordered" });
+});
+
+router.put("/about", (req: express.Request, res: express.Response): void => {
+    const md: MDMetadata = req.body;
+
+    if (!md.en || !md.ru || !md.ka) {
+        res.status(400).json({ error: "en, ru, ka required" });
+    }
 });
 
 export default router;
