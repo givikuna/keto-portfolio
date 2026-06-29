@@ -11,6 +11,8 @@ import { IDMachine } from "../../../db/modules/IDMachine";
 
 import { Gallery } from "../../../../shared/interfaces/Gallery";
 import { Album } from "../../../../shared/interfaces/Album";
+import { Picture } from "../../../../shared/interfaces/Picture";
+import { Description } from "../../../../shared/interfaces/Description";
 
 const upload: multer.Multer = multer.default({ dest: "apps/db/data/img" });
 
@@ -106,5 +108,194 @@ router.post(
         res.json({ id: id, file: name });
     },
 );
+
+//
+
+// CRUD
+
+//
+
+router.post("/gallery", (req: express.Request, res: express.Response): void => {
+    const { name, description } = req.body as { name: string; description: Description };
+
+    if (!name || !description) {
+        res.status(400).json({ error: "name and description required" });
+        return;
+    }
+
+    res.status(201).json(DB_API.addGallery(name, description));
+});
+
+router.put("/gallery/:id", (req: express.Request, res: express.Response): void => {
+    const updated: Gallery | undefined = DB_API.updateGallery(String(req.params["id"]), req.body);
+
+    if (!updated) {
+        res.status(404).json({ error: "gallery not found" });
+    }
+
+    res.json(updated);
+});
+
+router.delete("/gallery/:id", (req: express.Request, res: express.Response): void => {
+    const success: boolean = DB_API.deleteGallery(String(req.params["id"]));
+
+    if (!success) {
+        res.status(404).json({ error: "gallery not found" });
+    }
+
+    res.status(204).send();
+});
+
+// album stuff
+
+router.post("/album", (req: express.Request, res: express.Response): void => {
+    const { name, description, galleryID } = req.body as {
+        name: string;
+        description: Description;
+        galleryID: string;
+    };
+
+    if (!name || !description || !galleryID) {
+        res.status(400).json({ error: "name, description and galleryID required" });
+        return;
+    }
+
+    res.status(201).json(DB_API.addAlbum(name, description, galleryID));
+});
+
+router.put("/album/:id", (req: express.Request, res: express.Response): void => {
+    const updated: Album | undefined = DB_API.updateAlbum(String(req.params["id"]), req.body);
+
+    if (!updated) {
+        res.status(404).json({ error: "album not found" });
+        return;
+    }
+
+    res.json(updated);
+});
+
+router.delete("/album/:id", (req: express.Request, res: express.Response): void => {
+    const success: boolean = DB_API.deleteAlbum(String(req.params["id"]));
+
+    if (!success) {
+        res.status(404).json({ error: "album not found" });
+        return;
+    }
+
+    res.status(204).send();
+});
+
+// picture stuff
+router.post("/picture", (req: express.Request, res: express.Response): void => {
+    const { description, albumID } = req.body as { description: Description; albumID: string };
+
+    if (!description || !albumID) {
+        res.status(400).json({ error: "description and albumID required" });
+        return;
+    }
+
+    res.status(201).json(DB_API.addPicture(description, albumID));
+});
+
+router.put("/picture/:id", (req: express.Request, res: express.Response): void => {
+    const updated: Picture | undefined = DB_API.updatePicture(String(req.params["id"]), req.body);
+
+    if (!updated) {
+        res.status(404).json({ error: "picture not found" });
+        return;
+    }
+
+    res.json(updated);
+});
+
+router.delete("/picture/:id", (req: express.Request, res: express.Response): void => {
+    const success: boolean = DB_API.deletePicture(String(req.params["id"]));
+
+    if (!success) {
+        res.status(404).json({ error: "picture not found" });
+        return;
+    }
+
+    res.status(204).send();
+});
+
+// --- Move ---
+router.put("/move/album", (req: express.Request, res: express.Response): void => {
+    const { albumID, targetGalleryID } = req.body as { albumID: string; targetGalleryID: string };
+
+    if (!albumID || !targetGalleryID) {
+        res.status(400).json({ error: "albumId and targetGalleryId required" });
+        return;
+    }
+
+    const success: boolean = DB_API.moveAlbum(albumID, targetGalleryID);
+
+    if (!success) {
+        res.status(404).json({ error: "album or target gallery not found" });
+        return;
+    }
+
+    res.status(200).json({ message: "moved" });
+});
+
+router.put("/move/picture", (req: express.Request, res: express.Response): void => {
+    const { pictureID, targetAlbumID } = req.body as { pictureID: string; targetAlbumID: string };
+
+    if (!pictureID || !targetAlbumID) {
+        res.status(400).json({ error: "pictureId and targetAlbumId required" });
+        return;
+    }
+
+    const success: boolean = DB_API.movePicture(pictureID, targetAlbumID);
+
+    if (!success) {
+        res.status(404).json({ error: "picture or target album not found" });
+        return;
+    }
+
+    res.status(200).json({ message: "moved" });
+});
+
+// re-ordering stuff
+router.put("/reorder/albums", (req: express.Request, res: express.Response): void => {
+    const { galleryID, orderedAlbumIDs } = req.body as {
+        galleryID: string;
+        orderedAlbumIDs: string[];
+    };
+
+    if (!galleryID || !orderedAlbumIDs) {
+        res.status(400).json({ error: "galleryId and orderedAlbumIds required" });
+        return;
+    }
+    const success: boolean = DB_API.reorderAlbums(galleryID, orderedAlbumIDs);
+
+    if (!success) {
+        res.status(404).json({ error: "gallery not found or invalid order" });
+        return;
+    }
+
+    res.status(200).json({ message: "reordered" });
+});
+
+router.put("/reorder/pictures", (req: express.Request, res: express.Response): void => {
+    const { albumID, orderedPictureIDs } = req.body as {
+        albumID: string;
+        orderedPictureIDs: string[];
+    };
+
+    if (!albumID || !orderedPictureIDs) {
+        res.status(400).json({ error: "albumId and orderedPictureIds required" });
+        return;
+    }
+
+    const success = DB_API.reorderPictures(albumID, orderedPictureIDs);
+
+    if (!success) {
+        res.status(404).json({ error: "album not found or invalid order" });
+        return;
+    }
+
+    res.status(200).json({ message: "reordered" });
+});
 
 export default router;
