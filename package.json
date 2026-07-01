@@ -37,6 +37,8 @@
         "@types/express": "^5.0.6",
         "@types/lodash": "^4.17.24",
         "@types/node": "^25.9.3",
+        "prettier": "^3.9.4",
+        "prettier-plugin-svelte": "^4.1.1",
         "tsx": "^4.22.4",
         "typescript": "^6.0.3",
         "vite": "^8.0.16"
